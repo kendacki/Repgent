@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Repgent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-midnight: #0D1117; --bg-surface: rgba(22, 27, 34, 0.7); --bg-input: rgba(1, 4, 9, 0.8);
+      --accent-gold: #F2A900; --accent-gold-hover: #D99700; --text-high: #F0F6FC; --text-low: #8B949E;
+      --border-subtle: rgba(255, 255, 255, 0.08); --border-focus: rgba(242, 169, 0, 0.5);
+      --success-green: #238636; --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { width: 340px; height: 600px; font-family: 'Inter', sans-serif; background-color: var(--bg-midnight); color: var(--text-high); overflow: hidden; display: flex; flex-direction: column; background-image: radial-gradient(circle at 50% 0%, rgba(242, 169, 0, 0.03) 0%, transparent 60%); }
+    .container { padding: 20px 24px; display: flex; flex-direction: column; height: 100%; position: relative; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle); }
+    h1 { font-size: 14px; font-weight: 600; color: var(--text-high); letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
+    .header-logo { height: 20px; width: auto; border-radius: 4px; object-fit: contain; }
+    .status-dot { width: 8px; height: 8px; background: var(--text-low); border-radius: 50%; transition: var(--transition-smooth); }
+    .status-dot.active { background: var(--accent-gold); box-shadow: 0 0 10px rgba(242, 169, 0, 0.4); }
+    .status-dot.error { background: #F85149; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+    
+    .input-group { margin-bottom: 12px; }
+    .helper-text { display: block; font-size: 10px; color: var(--text-low); margin-top: 6px; text-align: right; }
+    .helper-text a { color: var(--accent-gold); text-decoration: none; transition: var(--transition-smooth); }
+    .helper-text a:hover { text-decoration: underline; }
+
+    /* NEW TIP TEXT CSS */
+    .tip-text { display: block; font-size: 10px; color: var(--text-low); margin-top: -4px; margin-bottom: 14px; text-align: center; line-height: 1.4; opacity: 0.8; }
+
+    input { width: 100%; padding: 12px 14px; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-high); font-size: 13px; font-family: 'Inter', sans-serif; transition: var(--transition-smooth); outline: none; }
+    input:focus { border-color: var(--border-focus); box-shadow: 0 0 0 3px rgba(242, 169, 0, 0.1); }
+    input::placeholder { color: #484F58; }
+
+    /* CUSTOM DROPDOWN CSS */
+    .custom-select-wrapper { position: relative; user-select: none; width: 100%; }
+    .custom-select-trigger { display: flex; align-items: center; width: 100%; padding: 12px 14px; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-high); font-size: 13px; cursor: pointer; transition: var(--transition-smooth); }
+    .custom-select-trigger:hover, .custom-select-trigger.open { border-color: var(--border-focus); }
+    .custom-select-trigger::after { content: '▾'; margin-left: auto; color: var(--text-low); font-size: 14px; }
+    .custom-select-options { position: absolute; top: 100%; left: 0; right: 0; background: #161B22; border: 1px solid var(--border-subtle); border-radius: 8px; margin-top: 4px; z-index: 100; display: none; flex-direction: column; overflow: hidden; box-shadow: 0 8px 16px rgba(0,0,0,0.5); }
+    .custom-select-options.open { display: flex; }
+    .custom-option { display: flex; align-items: center; padding: 12px 14px; color: var(--text-high); font-size: 13px; cursor: pointer; transition: background 0.2s; }
+    .custom-option:hover { background: rgba(242, 169, 0, 0.1); }
+    .tone-icon { width: 16px; height: 16px; margin-right: 10px; object-fit: contain; }
+
+    /* JARVIS VOICE UI */
+    .voice-input-wrapper { position: relative; display: flex; align-items: center; }
+    .voice-input-wrapper input { padding-right: 40px; }
+    .mic-btn { position: absolute; right: 8px; background: transparent; border: none; color: var(--text-low); width: 28px; height: 28px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; padding: 0; transition: var(--transition-smooth); z-index: 10; }
+    .mic-btn:hover { color: var(--accent-gold); background: rgba(242, 169, 0, 0.1); }
+    .mic-btn.listening { color: var(--bg-midnight); background: var(--accent-gold); animation: pulse-ring 1.5s infinite cubic-bezier(0.215, 0.61, 0.355, 1); }
+    @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(242, 169, 0, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(242, 169, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(242, 169, 0, 0); } }
+
+    /* SENTIMENT BADGE */
+    .sentiment-badge { display: none; font-size: 11px; font-weight: 600; padding: 6px 10px; border-radius: 6px; background: rgba(242, 169, 0, 0.1); border: 1px solid var(--accent-gold); color: var(--accent-gold); margin-bottom: 8px; align-self: flex-start; animation: fadeIn 0.4s ease-out; }
+
+    /* BUTTONS */
+    button { width: 100%; padding: 14px; border: none; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: var(--transition-smooth); }
+    button:active { transform: scale(0.97); }
+    button:focus-visible { outline: 2px solid var(--accent-gold); outline-offset: 2px; }
+    
+    .action-icon { width: 16px; height: 16px; object-fit: contain; }
+
+    .btn-main { background: var(--accent-gold); color: #000; box-shadow: 0 4px 12px rgba(242, 169, 0, 0.15); margin-bottom: 16px; margin-top: 4px; }
+    .btn-main:hover { background: var(--accent-gold-hover); }
+    .btn-copy { background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-high); }
+    .btn-copy:hover { background: rgba(255,255,255,0.05); }
+    .btn-insert { background: rgba(35, 134, 54, 0.1); border: 1px solid var(--success-green); color: #3FB950; }
+    .btn-insert:hover { background: rgba(35, 134, 54, 0.2); }
+    .btn-reset { background: transparent; color: var(--text-low); font-size: 11px; margin-top: 8px; }
+    .btn-reset:hover { color: var(--text-high); }
+
+    /* OUTPUT AREA */
+    .output-wrapper { position: relative; flex-grow: 1; display: flex; flex-direction: column; }
+    textarea { flex-grow: 1; width: 100%; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 14px; color: var(--text-high); font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.5; resize: none; outline: none; transition: var(--transition-smooth); }
+    textarea:focus { border-color: var(--border-focus); }
+    .skeleton-loader { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 8px; display: none; flex-direction: column; padding: 14px; gap: 10px; }
+    .skeleton-line { height: 10px; background: linear-gradient(90deg, #161B22 25%, #21262D 50%, #161B22 75%); background-size: 200% 100%; border-radius: 4px; animation: shimmer 1.5s infinite; }
+    .skeleton-line.w-full { width: 100%; } .skeleton-line.w-3-4 { width: 75%; } .skeleton-line.w-1-2 { width: 50%; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    .action-group { display: none; flex-direction: column; gap: 8px; animation: fadeIn 0.3s ease-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1><img src="icon.png" alt="Repgent Logo" class="header-logo"> Repgent</h1>
+      <div class="status-dot" id="statusDot" aria-hidden="true"></div>
+    </header>
+
+    <div id="setup-section">
+      <div class="input-group">
+        <label for="apiKey" class="sr-only">Gemini API Key</label>
+        <input type="password" id="apiKey" placeholder="Paste Gemini API Key...">
+        <span class="helper-text"><a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Get a free key ↗</a></span>
+      </div>
+
+      <div class="input-group">
+        <div class="custom-select-wrapper" id="customToneSelect">
+          <div class="custom-select-trigger" id="toneTrigger">
+            <img src="alien.svg" class="tone-icon" alt=""> <span>Tone: Casual</span>
+          </div>
+          <div class="custom-select-options" id="toneOptions">
+            <div class="custom-option" data-value="Casual" data-icon="alien.svg" data-label="Tone: Casual"><img src="alien.svg" class="tone-icon" alt=""> Tone: Casual</div>
+            <div class="custom-option" data-value="Professional" data-icon="female.svg" data-label="Tone: Professional"><img src="female.svg" class="tone-icon" alt=""> Tone: Professional</div>
+            <div class="custom-option" data-value="Direct" data-icon="direct.svg" data-label="Tone: Direct"><img src="direct.svg" class="tone-icon" alt=""> Tone: Direct</div>
+          </div>
+        </div>
+        <input type="hidden" id="toneSelector" value="Casual">
+      </div>
+
+      <div class="input-group voice-input-wrapper">
+        <label for="customInstructions" class="sr-only">Custom Instructions</label>
+        <input type="text" id="customInstructions" placeholder="Speak or type instructions..." autocomplete="off">
+        <button id="micBtn" class="mic-btn" title="Click to dictate">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+        </button>
+      </div>
+      
+      <span class="tip-text">💡 Tip: Use the mic to quickly add context and tailor your reply to the highlighted post.</span>
+      
+    </div>
+
+    <button id="scanBtn" class="btn-main">Generate Reply</button>
+    
+    <div id="actionButtons" class="action-group">
+      <button id="copyBtn" class="btn-copy">
+        <img src="Copy.svg" class="action-icon" alt=""> Copy Text
+      </button>
+      <button id="insertBtn" class="btn-insert">
+        <img src="insert.svg" class="action-icon" alt=""> Insert into Page
+      </button>
+      <button id="resetBtn" class="btn-reset">Restart Workflow</button>
+    </div>
+    
+    <div class="output-wrapper" aria-live="polite">
+      <div id="sentimentBadge" class="sentiment-badge"></div>
+      
+      <label for="output" class="sr-only">Generated Proposal</label>
+      <textarea id="output" placeholder="Highlight text on the page..."></textarea>
+      
+      <div id="skeletonLoader" class="skeleton-loader">
+        <div class="skeleton-line w-full"></div>
+        <div class="skeleton-line w-full"></div>
+        <div class="skeleton-line w-3-4"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

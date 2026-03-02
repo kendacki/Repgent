@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Repgent Settings</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0D1117; color: #F0F6FC; font-family: 'Inter', sans-serif;
+      display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;
+      background-image: radial-gradient(circle at 50% 0%, rgba(242, 169, 0, 0.05) 0%, transparent 60%);
+    }
+    .card {
+      background: #161B22; padding: 40px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: center; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    img { width: 48px; height: 48px; border-radius: 8px; margin-bottom: 20px; }
+    h1 { font-size: 20px; margin: 0 0 10px 0; color: #F2A900; }
+    p { color: #8B949E; font-size: 14px; line-height: 1.5; margin-bottom: 24px; }
+    button {
+      background: #F2A900; color: #000; border: none; padding: 12px 24px; border-radius: 8px;
+      font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s;
+    }
+    button:hover { background: #D99700; transform: scale(0.98); }
+    #status { margin-top: 15px; font-size: 13px; font-weight: 600; display: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="icon.png" alt="Repgent">
+    <h1>Initialize JARVIS Mode</h1>
+    <p>To use voice dictation, Chrome requires you to grant microphone access securely on this page.</p>
+    <button id="grantBtn">Grant Microphone Access</button>
+    <div id="status"></div>
+  </div>
+  
+  <script src="options.js"></script>
+</body>
+</html>
