@@ -18,7 +18,7 @@
 
 Designed with a premium "Midnight Slate & Sovereign Gold" UI, Repgent acts as a proactive AI teammate living directly inside your screen.
 
-## God-Tier Features
+## Unique Features
 
 * **The Holographic Orb (DOM Teleportation):** Highlight a job post on any website, and a floating gold orb appears. Click it to auto-generate and inject a perfect reply directly into the page's text box—without ever opening the extension popup.
 * **JARVIS Voice Mode:** Don't type your strategy; speak it. Click the mic icon to dictate custom constraints (e.g., *"Tell them I can start tomorrow for $500"*), powered by the Web Speech API.
