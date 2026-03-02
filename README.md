@@ -20,7 +20,7 @@ Designed with a premium "Midnight Slate & Sovereign Gold" UI, Repgent acts as a 
 
 ## Unique Features
 
-* **The Holographic Orb (DOM Teleportation):** Highlight a job post on any website, and a floating gold orb appears. Click it to auto-generate and inject a perfect reply directly into the page's text box—without ever opening the extension popup.
+* **The Holographic Orb (DOM Teleportation):** Highlight a job post on any website, and a floating gold orb appears. Click it to auto-generate and inject a perfect reply directly into the page's text box without ever opening the extension popup.
 * **JARVIS Voice Mode:** Don't type your strategy; speak it. Click the mic icon to dictate custom constraints (e.g., *"Tell them I can start tomorrow for $500"*), powered by the Web Speech API.
 * **Psycho-Sentiment Analysis:** Repgent splits its brain. Before replying, it analyzes the client's emotional state (e.g.,  *Urgent & Stressed*,  *Highly Corporate*) and displays a psychological badge to give you the upper hand.
 * **The Chameleon:** Automatically detects if you are on Upwork, LinkedIn, Contra, or Fiverr, instantly formatting the reply length and style to match the platform's unwritten rules.
@@ -65,7 +65,7 @@ Repgent features a premium, accessible interface:
 ---
 
 <div align="center">
-  <p>Engineered and Designed by <b>[Cryptzarr]</b></p>
+  <p>Engineered and Designed by <b>[Kendacki]</b></p>
   <p>UX Engineer & Product Developer</p>
 </div>
 
