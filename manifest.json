@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Repgent",
   "version": "5.0",
-  "description": "Multimodal AI Agent with Holographic DOM Injection & Psycho-Sentiment Analysis.",
+  "description": "The Next-Generation AI Reply Agent for Elite Freelancers.",
   "permissions": [
     "activeTab",
     "storage",
@@ -46,4 +46,5 @@
       "js": ["content.js"]
     }
   ]
+
 }
