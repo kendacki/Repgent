@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Repgent",
-  "version": "5.0",
+  "version": "1.0",
   "description": "The Next-Generation AI Reply Agent for Elite Freelancers.",
   "permissions": [
     "activeTab",
@@ -48,3 +48,4 @@
   ]
 
 }
+
